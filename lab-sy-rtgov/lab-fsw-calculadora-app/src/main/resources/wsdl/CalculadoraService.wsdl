@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="CalculadoraService"
+	targetNamespace="urn:com.redhat.mw:lab-fsw-calculadora-app:1.0"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="urn:com.redhat.mw:lab-fsw-calculadora-app:1.0"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+	<wsdl:types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+			xmlns="urn:com.redhat.mw:lab-fsw-calculadora-app:1.0"
+			attributeFormDefault="unqualified" elementFormDefault="unqualified"
+			targetNamespace="urn:com.redhat.mw:lab-fsw-calculadora-app:1.0">
+			<xs:complexType name="operacion">
+				<xs:sequence>
+					<xs:element name="idOperacion" type="xs:int" />
+					<xs:element name="numero1" type="xs:int" />
+					<xs:element name="numero2" type="xs:int" />
+					<xs:element name="sleepMilisegundos" type="xs:int" />
+					<xs:element minOccurs="0" name="tipoOperacion" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="resultado">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="codigo" type="xs:string" />
+					<xs:element minOccurs="0" name="descripcion" type="xs:string" />
+					<xs:element name="exitoso" type="xs:boolean" />
+					<xs:element name="resultado" type="xs:double" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="operacion" nillable="true" type="operacion" />
+			<xs:element name="resultado" nillable="true" type="resultado" />
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="calcular">
+		<wsdl:part name="arg0" element="tns:operacion">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="calcularResponse">
+		<wsdl:part name="return" element="tns:resultado">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="CalculadoraServicePortType">
+		<wsdl:operation name="calcular">
+			<wsdl:input name="calcular" message="tns:calcular">
+			</wsdl:input>
+			<wsdl:output name="calcularResponse" message="tns:calcularResponse">
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="CalculadoraServiceSoapBinding" type="tns:CalculadoraServicePortType">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="calcular">
+			<soap:operation soapAction="calcular" style="document" />
+			<wsdl:input name="calcular">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="calcularResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="CalculadoraService">
+		<wsdl:port name="CalculadoraServicePort" binding="tns:CalculadoraServiceSoapBinding">
+			<soap:address
+				location="http://localhost:8080/lab-fsw-calculadora-app/CalculadoraService" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

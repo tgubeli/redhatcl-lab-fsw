@@ -1,0 +1,8 @@
+<jboss-deployment-structure>
+	<deployment>
+		<dependencies>
+			<module name="org.overlord.rtgov" export="true" />
+			<module name="deployment.overlord-rtgov.war" />
+		</dependencies>
+	</deployment>
+</jboss-deployment-structure>
